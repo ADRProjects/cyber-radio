@@ -3,380 +3,900 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Radio - Radio Web Digital</title>
-    <meta name="description" content="Sintoniza emisoras de radio de todo el mundo en streaming con una interfaz retro pixel art inspirada en los equipos digitales clásicos.">
-    
-    <!-- Open Graph / Social Sharing Meta Tags -->
-    <meta property="og:title" content="Cyber Radio - Radio Web Digital">
-    <meta property="og:description" content="Sintoniza emisoras de radio de todo el mundo en streaming con una interfaz retro pixel art.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630' width='1200' height='630'%3E%3Crect width='1200' height='630' fill='%230b0614'/%3E%3Crect x='100' y='100' width='1000' height='430' fill='%23180f29' stroke='%2300ffcc' stroke-width='4'/%3E%3Ctext x='200' y='280' fill='%2300ffcc' font-family='monospace' font-size='60' font-weight='bold'%3E[ CYBER RADIO ]%3C/text%3E%3Ctext x='200' y='360' fill='%23ff007f' font-family='monospace' font-size='32'%3EStreaming Global & Pixel Audio%3C/text%3E%3C/svg%3E">
-
-    <!-- Favicon (Pixel Radio Icon) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%2300ffcc' d='M4 8h24v16H4z'/%3E%3Cpath fill='%23180f29' d='M6 10h20v12H6z'/%3E%3Ccircle cx='10' cy='16' r='3' fill='%23ff007f'/%3E%3Crect x='16' y='13' width='10' height='2' fill='%2300ffcc'/%3E%3Crect x='16' y='17' width='7' height='2' fill='%2300ffcc'/%3E%3C/svg%3E">
-
+    <title>CYBER RADIO // Sintonizador Digital Mundial</title>
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Google Fonts for Pixel/Retro Aesthetics -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Pixel Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-    
+
     <style>
-        .font-pixel { font-family: 'Press Start 2P', monospace; }
-        .font-lcd { font-family: 'VT323', monospace; }
-        .cyber-panel {
-            background: linear-gradient(135deg, #1f1338 0%, #110920 100%);
-            box-shadow: 0 0 25px rgba(0, 255, 204, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.8);
-            border: 3px solid #3b2563;
+        /* Cyberpunk Pixel Art Color Palette */
+        :root {
+            --bg-dark: #0b0716;
+            --casing-bg: #160e29;
+            --casing-inner: #0f091f;
+            --cyan-accent: #00f3ff;
+            --pink-hot: #ff007f;
+            --lime-neon: #00ff66;
+            --yellow-neon: #ffcc00;
+            --purple-deep: #261942;
+            --border-light: #442d70;
+            --border-dark: #07040d;
         }
-        .lcd-screen {
-            background-color: #05020a;
-            border: 2px inset #2a1b4e;
-            box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.2);
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(255, 0, 127, 0.08) 0%, transparent 60%),
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 16px 16px, 16px 16px;
+            font-family: 'VT323', monospace;
+            color: #d8ceee;
+            image-rendering: pixelated;
+            user-select: none;
         }
-        .retro-button {
-            background: #2b1a4a;
-            border: 2px solid #57398f;
-            box-shadow: 0 4px 0 #130a24;
-            transition: all 0.1s ease;
+
+        .font-pixel-heading {
+            font-family: 'Press Start 2P', monospace;
         }
-        .retro-button:active {
+
+        /* Tactile Pixel Borders & Shadows */
+        .pixel-border-outset {
+            border-style: solid;
+            border-width: 4px;
+            border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+            box-shadow: inset -2px -2px 0px #000, inset 2px 2px 0px rgba(255, 255, 255, 0.15);
+        }
+
+        .pixel-border-inset {
+            border-style: solid;
+            border-width: 4px;
+            border-color: var(--border-dark) var(--border-light) var(--border-light) var(--border-dark);
+            box-shadow: inset 2px 2px 4px #000;
+        }
+
+        .pixel-btn {
+            background: linear-gradient(180deg, #37235a 0%, #201338 100%);
+            border-style: solid;
+            border-width: 3px;
+            border-color: #55378a var(--border-dark) var(--border-dark) #55378a;
+            box-shadow: 0 4px 0 #080512;
+            transition: transform 0.05s ease, box-shadow 0.05s ease;
+        }
+
+        .pixel-btn:hover {
+            filter: brightness(1.25);
+        }
+
+        .pixel-btn:active, .pixel-btn.active {
             transform: translateY(3px);
-            box-shadow: 0 1px 0 #130a24;
+            box-shadow: 0 1px 0 #080512;
+            border-color: var(--border-dark) #55378a #55378a var(--border-dark);
+            background: #150c26;
         }
-        .retro-button.active {
-            background: #00ffcc;
-            color: #0b0614;
-            border-color: #ffffff;
-            box-shadow: 0 0 10px #00ffcc;
+
+        .pixel-btn-action {
+            background: linear-gradient(180deg, #ff007f 0%, #a80054 100%);
+            border-color: #ff66b3 var(--border-dark) var(--border-dark) #ff66b3;
+            color: #ffffff;
+            text-shadow: 1px 1px 0px #000;
         }
-        custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
+
+        .pixel-btn-cyan {
+            background: linear-gradient(180deg, #00f3ff 0%, #008891 100%);
+            border-color: #80f9ff var(--border-dark) var(--border-dark) #80f9ff;
+            color: #000000;
         }
-        custom-scrollbar::-webkit-scrollbar-track {
-            background: #0b0614;
+
+        .pixel-lcd-screen {
+            background-color: #04080c;
+            background-image: linear-gradient(rgba(0, 255, 102, 0.04) 50%, rgba(0, 0, 0, 0.35) 50%);
+            background-size: 100% 4px;
+            box-shadow: inset 0 0 14px rgba(0, 243, 255, 0.15), inset 2px 2px 8px #000;
         }
-        custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #3b2563;
-            border-radius: 4px;
+
+        /* Glowing Neon Text Colors */
+        .glow-lime {
+            color: var(--lime-neon);
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.6);
+        }
+
+        .glow-cyan {
+            color: var(--cyan-accent);
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+        }
+
+        .glow-pink {
+            color: var(--pink-hot);
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
+        }
+
+        .glow-yellow {
+            color: var(--yellow-neon);
+            text-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+        }
+
+        /* Marquee Text Animation */
+        .marquee-box {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee-scroll 16s linear infinite;
+        }
+
+        @keyframes marquee-scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Custom Pixel Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #07040d;
+            height: 12px;
+            border: 2px solid var(--border-light);
+            border-radius: 0;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 22px;
+            width: 14px;
+            background: var(--cyan-accent);
+            border: 2px solid #000;
+            box-shadow: inset -1px -1px 0 #007780, inset 1px 1px 0 #fff;
+            cursor: pointer;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--casing-inner);
+            border: 2px solid var(--border-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--purple-deep);
+            border: 2px solid var(--border-light);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-hot);
+        }
+
+        /* Hardware LED Indicators */
+        .led-dot {
+            width: 12px;
+            height: 12px;
+            border: 2px solid #000;
+            background-color: #211638;
+        }
+        .led-dot.on-green {
+            background-color: var(--lime-neon);
+            box-shadow: 0 0 10px var(--lime-neon);
+        }
+        .led-dot.on-yellow {
+            background-color: var(--yellow-neon);
+            box-shadow: 0 0 10px var(--yellow-neon);
+        }
+        .led-dot.on-red {
+            background-color: var(--pink-hot);
+            box-shadow: 0 0 10px var(--pink-hot);
         }
     </style>
 </head>
-<body class="bg-[#07030f] text-slate-100 min-h-screen flex flex-col items-center justify-between p-4 font-lcd">
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-6">
 
-    <!-- Header / Title -->
-    <header class="w-full max-w-4xl text-center py-4">
-        <h1 class="font-pixel text-xl sm:text-2xl text-[#00ffcc] tracking-widest drop-shadow-[0_0_10px_rgba(0,255,204,0.5)]">CYBER RADIO</h1>
-        <p class="text-xs sm:text-sm text-[#ff007f] font-lcd tracking-wider mt-1">[ SINTONIZADOR DIGITAL MUNDIAL ]</p>
-    </header>
-
-    <!-- Main Receiver Chassis -->
-    <main class="w-full max-w-4xl cyber-panel rounded-lg p-4 sm:p-6 mb-6 flex flex-col gap-6">
+    <!-- MAIN RADIO CASING CABINET -->
+    <div class="w-full max-w-4xl bg-[var(--casing-bg)] pixel-border-outset p-3 sm:p-6 relative flex flex-col gap-4">
         
-        <!-- Top Display & Visualizer Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
-            <!-- LCD Marquee Screen -->
-            <div class="lcd-screen rounded p-4 md:col-span-2 flex flex-col justify-between h-36 sm:h-40 relative overflow-hidden">
-                <div class="flex justify-between items-center text-xs text-emerald-400 border-b border-emerald-900 pb-1">
-                    <span id="conn-status" class="flex items-center gap-1.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block animate-pulse" id="status-dot"></span> 
-                        <span id="status-text">DESCONECTADO</span>
-                    </span>
-                    <span id="stream-meta" class="text-[#ff007f]">FM / 128 kbps</span>
-                </div>
-                
-                <div class="my-auto py-2">
-                    <div id="station-title" class="text-xl sm:text-2xl text-[#00ffcc] font-bold truncate tracking-wide">Selecciona una emisora</div>
-                    <div id="station-details" class="text-sm text-slate-400 truncate mt-1">País: --- | Género: ---</div>
-                </div>
-
-                <div class="flex justify-between items-center text-xs text-slate-400 border-t border-emerald-900 pt-1">
-                    <span id="timer">00:00:00</span>
-                    <span id="bitrate-display">BITRATE: ---</span>
-                </div>
-            </div>
-
-            <!-- Canvas Audio Visualizer -->
-            <div class="lcd-screen rounded p-2 flex flex-col items-center justify-center h-36 sm:h-40 relative">
-                <div class="absolute top-2 left-2 text-[10px] text-purple-400 tracking-widest">ESPECTRO</div>
-                <canvas id="visualizer" class="w-full h-full mt-2"></canvas>
-            </div>
-        </div>
-
-        <!-- Controls & Volume Bar -->
-        <div class="flex flex-wrap items-center justify-between gap-4 bg-[#0d0717] p-3 rounded border border-[#2a1b4e]">
+        <!-- HEADER PANEL -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b-4 border-[var(--border-dark)] pb-3 gap-2">
             <div class="flex items-center gap-3">
-                <button id="play-btn" class="retro-button px-5 py-2.5 text-base font-pixel text-[#00ffcc] rounded cursor-pointer hover:bg-[#3b2563]">▶ REPRODUCIR</button>
-                <button id="stop-btn" class="retro-button px-4 py-2.5 text-base font-pixel text-[#ff007f] rounded cursor-pointer hover:bg-[#3b2563]">⏹ PARAR</button>
-            </div>
-            
-            <div class="flex items-center gap-3 w-full sm:w-auto">
-                <span class="text-sm text-purple-300">VOLUMEN</span>
-                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.8" class="accent-[#00ffcc] cursor-pointer w-full sm:w-32">
-            </div>
-        </div>
-
-        <!-- Filters & Presets -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            
-            <!-- Genres -->
-            <div class="flex flex-col gap-1">
-                <label class="text-xs text-purple-300 tracking-wider">GÉNERO / ESTILO:</label>
-                <select id="genre-select" class="lcd-screen text-slate-200 p-2 rounded text-base outline-none cursor-pointer">
-                    <option value="all">Todos los géneros</option>
-                    <option value="pop">Pop</option>
-                    <option value="rock">Rock</option>
-                    <option value="electronic">Electrónica</option>
-                    <option value="jazz">Jazz</option>
-                    <option value="classical">Clásica</option>
-                    <option value="news">Noticias / Talk</option>
-                    <option value="salsa">Salsa / Latina</option>
-                    <option value="reggae">Reggae</option>
-                </select>
+                <div class="w-9 h-9 bg-[var(--pink-hot)] flex items-center justify-center border-2 border-black shadow-[2px_2px_0_#000]">
+                    <i class="fa-solid fa-radio text-black text-base"></i>
+                </div>
+                <div>
+                    <h1 class="font-pixel-heading text-xs sm:text-sm glow-cyan tracking-wider">CYBER RADIO</h1>
+                    <p class="text-xs text-gray-400">RECEPTOR DIGITAL DE EMISORAS MUNDIALES</p>
+                </div>
             </div>
 
-            <!-- Country Selector -->
-            <div class="flex flex-col gap-1">
-                <label class="text-xs text-purple-300 tracking-wider">PAÍS:</label>
-                <select id="country-select" class="lcd-screen text-slate-200 p-2 rounded text-base outline-none cursor-pointer">
-                    <option value="all">Todos los países</option>
-                    <option value="Cuba">Cuba</option>
-                    <option value="Spain">España</option>
-                    <option value="Mexico">México</option>
-                    <option value="Argentina">Argentina</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="United States">Estados Unidos</option>
-                    <option value="France">Francia</option>
-                    <option value="Italy">Italia</option>
-                    <option value="Germany">Alemania</option>
-                </select>
-            </div>
+            <div class="flex items-center gap-3 text-xs">
+                <!-- Status LED -->
+                <div class="flex items-center gap-2 bg-[var(--casing-inner)] px-2.5 py-1 pixel-border-inset">
+                    <div id="status-led" class="led-dot"></div>
+                    <span id="status-text" class="glow-lime text-xs font-bold uppercase">EN ESPERA</span>
+                </div>
 
-            <!-- Language Selector -->
-            <div class="flex flex-col gap-1">
-                <label class="text-xs text-purple-300 tracking-wider">IDIOMA:</label>
-                <select id="lang-select" class="lcd-screen text-slate-200 p-2 rounded text-base outline-none cursor-pointer">
-                    <option value="all">Cualquier idioma</option>
-                    <option value="spanish">Español</option>
-                    <option value="english">Inglés</option>
-                    <option value="french">Francés</option>
-                    <option value="italian">Italiano</option>
-                    <option value="german">Alemán</option>
-                </select>
+                <!-- Toggle Panel Button -->
+                <button id="btn-toggle-drawer" class="pixel-btn px-2.5 py-1 text-xs text-cyan-300 font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-sliders"></i> <span id="drawer-toggle-text">OCULTAR FILTROS</span>
+                </button>
             </div>
         </div>
 
-        <!-- Station Results Table -->
-        <div class="flex flex-col gap-2">
-            <div class="flex justify-between items-center">
-                <span class="text-xs text-purple-300 tracking-wider">EMISORAS DISPONIBLES:</span>
-                <span id="station-count" class="text-xs text-[#00ffcc]">0 encontradas</span>
-            </div>
+        <!-- MAIN DISPLAY & VISUALIZER AREA -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
             
-            <div class="lcd-screen rounded h-64 overflow-y-auto p-2 flex flex-col gap-1.5 custom-scrollbar" id="station-list">
-                <div class="text-center text-slate-500 py-16">Cargando emisoras desde el servidor...</div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="text-center text-xs text-purple-400 py-2">
-        Cyber Radio • Conectado vía Radio Browser API
-    </footer>
-
-    <!-- Audio Element -->
-    <audio id="audio-player" crossorigin="anonymous"></audio>
-
-    <!-- App Logic -->
-    <script>
-        const audioPlayer = document.getElementById('audio-player');
-        const playBtn = document.getElementById('play-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const volumeSlider = document.getElementById('volume-slider');
-        const stationTitle = document.getElementById('station-title');
-        const stationDetails = document.getElementById('station-details');
-        const statusDot = document.getElementById('status-dot');
-        const statusText = document.getElementById('status-text');
-        const timerDisplay = document.getElementById('timer');
-        const bitrateDisplay = document.getElementById('bitrate-display');
-        const stationList = document.getElementById('station-list');
-        const stationCount = document.getElementById('station-count');
-
-        const genreSelect = document.getElementById('genre-select');
-        const countrySelect = document.getElementById('country-select');
-        const langSelect = document.getElementById('lang-select');
-
-        let stations = [];
-        let currentStation = null;
-        let timerSeconds = 0;
-        let timerInterval = null;
-
-        // Web Audio API Visualizer Setup
-        let audioCtx, analyser, dataArray, sourceNode;
-        const canvas = document.getElementById('visualizer');
-        const canvasCtx = canvas.getContext('2d');
-
-        function initVisualizer() {
-            if (audioCtx) return;
-            try {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioCtx.createAnalyser();
-                sourceNode = audioCtx.createMediaElementSource(audioPlayer);
-                sourceNode.connect(analyser);
-                analyser.connect(audioCtx.destination);
-                analyser.fftSize = 64;
-                dataArray = new Uint8Array(analyser.frequencyBinCount);
-                drawVisualizer();
-            } catch (e) {
-                console.log("Web Audio API not supported", e);
-            }
-        }
-
-        function drawVisualizer() {
-            requestAnimationFrame(drawVisualizer);
-            if (!analyser) return;
-            analyser.getByteFrequencyData(dataArray);
-
-            canvas.width = canvas.parentElement.clientWidth - 16;
-            canvas.height = canvas.parentElement.clientHeight - 24;
-
-            canvasCtx.fillStyle = '#05020a';
-            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
-
-            const barWidth = (canvas.width / dataArray.length) * 1.5;
-            let x = 0;
-
-            for (let i = 0; i < dataArray.length; i++) {
-                const barHeight = (dataArray[i] / 255) * canvas.height;
+            <!-- LCD MONITOR DISPLAY (7 COLS) -->
+            <div class="lg:col-span-7 pixel-lcd-screen pixel-border-inset p-3.5 flex flex-col justify-between h-48 sm:h-52">
                 
-                // Neon gradient effect
-                canvasCtx.fillStyle = i % 2 === 0 ? '#00ffcc' : '#ff007f';
-                canvasCtx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
+                <!-- Screen Info Bar -->
+                <div class="flex justify-between items-center text-xs border-b border-teal-900/60 pb-1">
+                    <div class="flex items-center gap-2">
+                        <span class="glow-yellow font-bold text-xs" id="lcd-freq">FM 108.0 MHz</span>
+                        <span class="bg-teal-950/80 border border-teal-600/50 text-teal-300 px-1 text-[10px]" id="lcd-codec">AAC</span>
+                        <span class="glow-lime text-[10px]" id="lcd-bitrate">128 KBPS</span>
+                    </div>
+                    <div class="glow-pink font-bold text-xs" id="lcd-country">CUBA</div>
+                </div>
 
-                x += barWidth + 1;
+                <!-- Station Marquee Header -->
+                <div class="my-auto py-2">
+                    <div class="marquee-box w-full mb-1">
+                        <div id="lcd-title" class="marquee-content font-pixel-heading text-sm sm:text-base glow-lime">
+                            *** SINTONIZA TU EMISORA FAVORITA O PRESIONA REPRODUCIR ***
+                        </div>
+                    </div>
+                    <div id="lcd-genre" class="glow-cyan text-xs truncate">
+                        GÉNERO: TODOS / TRANSMISIÓN MUNDIAL EN VIVO
+                    </div>
+                </div>
+
+                <!-- Timers and Signal Indicator -->
+                <div class="flex justify-between items-end border-t border-teal-900/60 pt-1 text-xs">
+                    <div>
+                        <span class="text-teal-700 font-bold mr-1">TIEMPO:</span>
+                        <span id="lcd-timer" class="glow-lime text-base font-bold">00:00:00</span>
+                    </div>
+
+                    <div class="flex items-center gap-1">
+                        <span class="text-teal-700 text-[10px] mr-1">SEÑAL</span>
+                        <div class="flex items-end gap-0.5 h-3">
+                            <div class="w-1.5 h-1 bg-lime-400"></div>
+                            <div class="w-1.5 h-2 bg-lime-400"></div>
+                            <div class="w-1.5 h-3 bg-lime-400"></div>
+                            <div id="sig-bar-4" class="w-1.5 h-3 bg-teal-950"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CANVAS VISUALIZER (5 COLS) -->
+            <div class="lg:col-span-5 bg-[var(--casing-inner)] pixel-border-inset p-2.5 flex flex-col justify-between h-48 sm:h-52">
+                <div class="flex justify-between items-center text-xs border-b border-[var(--border-dark)] pb-1">
+                    <span class="font-pixel-heading text-[10px] text-purple-300">ECUALIZADOR</span>
+                    <button id="btn-vis-mode" class="glow-cyan hover:underline text-xs">MODO: BARRAS</button>
+                </div>
+
+                <div class="relative w-full h-32 my-auto bg-black border border-[var(--border-dark)]">
+                    <canvas id="pixel-canvas" class="w-full h-full block"></canvas>
+                </div>
+
+                <div class="flex justify-between items-center text-[10px] text-gray-500 pt-1">
+                    <span>ANALIZADOR ESPECTRAL</span>
+                    <span class="glow-lime">60 FPS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- HARDWARE CONTROLS DECK -->
+        <div class="bg-[var(--casing-inner)] pixel-border-inset p-3 sm:p-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            
+            <!-- BUTTONS (7 COLS) -->
+            <div class="md:col-span-7 flex flex-wrap items-center gap-2">
+                <button id="btn-play" class="pixel-btn pixel-btn-action px-4 py-2.5 text-xs font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-play text-xs"></i> REPRODUCIR
+                </button>
+                <button id="btn-pause" class="pixel-btn px-3 py-2.5 text-xs text-yellow-300 flex items-center gap-1">
+                    <i class="fa-solid fa-pause"></i> PAUSA
+                </button>
+                <button id="btn-stop" class="pixel-btn px-3 py-2.5 text-xs text-red-400 flex items-center gap-1">
+                    <i class="fa-solid fa-square"></i> DETENER
+                </button>
+                <button id="btn-prev" class="pixel-btn px-3 py-2.5 text-xs text-cyan-300" title="Emisora Anterior">
+                    <i class="fa-solid fa-backward-step"></i>
+                </button>
+                <button id="btn-next" class="pixel-btn px-3 py-2.5 text-xs text-cyan-300" title="Siguiente Emisora">
+                    <i class="fa-solid fa-forward-step"></i>
+                </button>
+                <button id="btn-random" class="pixel-btn pixel-btn-cyan px-3 py-2.5 text-xs font-bold flex items-center gap-1" title="Sintonizar Emisora Aleatoria">
+                    <i class="fa-solid fa-shuffle"></i> ALEATORIO
+                </button>
+            </div>
+
+            <!-- VOLUME SLIDER (5 COLS) -->
+            <div class="md:col-span-5 flex items-center gap-3 bg-[var(--casing-bg)] p-2 pixel-border-outset">
+                <button id="btn-mute" class="pixel-btn px-2.5 py-1.5 text-xs text-pink-400">
+                    <i id="mute-icon" class="fa-solid fa-volume-high"></i>
+                </button>
+                <div class="flex-1 flex flex-col gap-1">
+                    <div class="flex justify-between text-[10px] font-bold">
+                        <span class="text-gray-400">VOLUMEN</span>
+                        <span id="vol-text" class="glow-cyan">80%</span>
+                    </div>
+                    <input id="vol-slider" type="range" min="0" max="1" step="0.01" value="0.8" class="w-full">
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK PRESET GENRE BUTTONS -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+            <span class="font-pixel-heading text-[9px] text-pink-400 mr-2 shrink-0">GÉNEROS:</span>
+            <button class="preset-tag-btn pixel-btn px-2.5 py-1 text-xs text-pink-300 shrink-0" data-tag="salsa">Salsa</button>
+            <button class="preset-tag-btn pixel-btn px-2.5 py-1 text-xs text-amber-300 shrink-0" data-tag="reggaeton">Reggaeton</button>
+            <button class="preset-tag-btn pixel-btn px-2.5 py-1 text-xs text-cyan-300 shrink-0" data-tag="pop">Pop</button>
+            <button class="preset-tag-btn pixel-btn px-2.5 py-1 text-xs text-yellow-300 shrink-0" data-tag="rock">Rock</button>
+            <button class="preset-tag-btn pixel-btn px-2.5 py-1 text-xs text-purple-300 shrink-0" data-tag="electro">Electrónica</button>
+            <button class="preset-tag-btn pixel-btn px-2.5 py-1 text-xs text-green-300 shrink-0" data-tag="noticias">Noticias</button>
+            <button class="preset-tag-btn pixel-btn px-2.5 py-1 text-xs text-lime-300 shrink-0" data-tag="jazz">Jazz</button>
+            <button class="preset-tag-btn pixel-btn px-2.5 py-1 text-xs text-red-300 shrink-0" data-tag="80s">Retro 80s</button>
+        </div>
+
+        <!-- SEARCH AND FILTER PANEL -->
+        <div id="filter-drawer" class="flex flex-col gap-3">
+            
+            <!-- INPUT CONTROLS -->
+            <div class="bg-[var(--casing-inner)] pixel-border-inset p-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                <!-- Search Keyword -->
+                <div>
+                    <label class="block text-gray-400 mb-1 font-bold">BUSCAR PALABRA</label>
+                    <input id="input-keyword" type="text" placeholder="Ej: Habana, Dance, Radio..." 
+                           class="w-full bg-black border-2 border-[var(--border-light)] text-lime-400 p-2 focus:outline-none focus:border-[var(--cyan-accent)]">
+                </div>
+
+                <!-- Clean Scrollable Country Selector -->
+                <div>
+                    <label class="block text-gray-400 mb-1 font-bold">SELECCIONAR PAÍS</label>
+                    <select id="select-country" class="w-full bg-black border-2 border-[var(--border-light)] text-cyan-300 p-2 focus:outline-none focus:border-[var(--cyan-accent)]">
+                        <option value="">Todos los Países</option>
+                        <option value="Cuba" selected>Cuba</option>
+                        <option value="Spain">España</option>
+                        <option value="Mexico">México</option>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="United States">Estados Unidos</option>
+                        <option value="Venezuela">Venezuela</option>
+                        <option value="Chile">Chile</option>
+                        <option value="Peru">Perú</option>
+                        <option value="Dominican Republic">República Dominicana</option>
+                        <option value="Puerto Rico">Puerto Rico</option>
+                    </select>
+                </div>
+
+                <!-- Tag / Genre Selector -->
+                <div>
+                    <label class="block text-gray-400 mb-1 font-bold">GÉNERO / CATEGORÍA</label>
+                    <select id="select-tag" class="w-full bg-black border-2 border-[var(--border-light)] text-pink-300 p-2 focus:outline-none focus:border-[var(--cyan-accent)]">
+                        <option value="">Todos los Géneros</option>
+                        <option value="salsa">Salsa</option>
+                        <option value="reggaeton">Reggaeton</option>
+                        <option value="pop">Pop</option>
+                        <option value="rock">Rock</option>
+                        <option value="latina">Música Latina</option>
+                        <option value="news">Noticias</option>
+                        <option value="classical">Clásica</option>
+                        <option value="jazz">Jazz</option>
+                        <option value="dance">Dance / Electro</option>
+                        <option value="80s">Años 80</option>
+                    </select>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-end gap-2">
+                    <button id="btn-search" class="pixel-btn pixel-btn-action w-full py-2 font-bold flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-magnifying-glass"></i> ESCANEAR
+                    </button>
+                    <button id="btn-reset-filters" class="pixel-btn py-2 px-3 text-gray-400 hover:text-white" title="Reiniciar Filtros">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STATIONS LIST GRID -->
+            <div class="bg-[var(--casing-inner)] pixel-border-inset p-2">
+                <div class="flex justify-between items-center text-xs px-2 py-1 border-b border-[var(--border-dark)] mb-2">
+                    <span class="font-pixel-heading text-[10px] text-gray-400">DIRECTORIO DE EMISORAS</span>
+                    <span class="text-gray-400">ENCONTRADAS: <span id="count-display" class="glow-yellow font-bold">0</span></span>
+                </div>
+
+                <!-- Scrollable Grid -->
+                <div id="stations-grid" class="max-h-60 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-1">
+                    <div class="col-span-full py-8 text-center text-xs text-gray-500">
+                        SINTONIZANDO EMISORAS DE CUBA... ESPERE UN MOMENTO...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AUDIO ENGINE -->
+    <audio id="audio-engine" crossorigin="anonymous" preload="none"></audio>
+
+    <script>
+        // API Endpoint with fallback mechanism
+        const API_BASE = 'https://de1.api.radio-browser.info/json';
+
+        // State Management
+        const state = {
+            stations: [],
+            currentIndex: -1,
+            isPlaying: false,
+            isMuted: false,
+            visMode: 'bars',
+            
+            // Web Audio Nodes
+            audioCtx: null,
+            analyser: null,
+            audioSource: null,
+
+            // Timer
+            timerInterval: null,
+            elapsedSeconds: 0
+        };
+
+        // DOM Elements
+        const el = {
+            audio: document.getElementById('audio-engine'),
+            canvas: document.getElementById('pixel-canvas'),
+            statusLed: document.getElementById('status-led'),
+            statusText: document.getElementById('status-text'),
+            
+            // LCD Elements
+            lcdTitle: document.getElementById('lcd-title'),
+            lcdGenre: document.getElementById('lcd-genre'),
+            lcdFreq: document.getElementById('lcd-freq'),
+            lcdCodec: document.getElementById('lcd-codec'),
+            lcdBitrate: document.getElementById('lcd-bitrate'),
+            lcdCountry: document.getElementById('lcd-country'),
+            lcdTimer: document.getElementById('lcd-timer'),
+
+            // Control Buttons
+            btnPlay: document.getElementById('btn-play'),
+            btnPause: document.getElementById('btn-pause'),
+            btnStop: document.getElementById('btn-stop'),
+            btnPrev: document.getElementById('btn-prev'),
+            btnNext: document.getElementById('btn-next'),
+            btnRandom: document.getElementById('btn-random'),
+            btnMute: document.getElementById('btn-mute'),
+            muteIcon: document.getElementById('mute-icon'),
+            volSlider: document.getElementById('vol-slider'),
+            volText: document.getElementById('vol-text'),
+            btnVisMode: document.getElementById('btn-vis-mode'),
+
+            // Filters & Drawer
+            btnToggleDrawer: document.getElementById('btn-toggle-drawer'),
+            drawerToggleText: document.getElementById('drawer-toggle-text'),
+            filterDrawer: document.getElementById('filter-drawer'),
+            inputKeyword: document.getElementById('input-keyword'),
+            selectCountry: document.getElementById('select-country'),
+            selectTag: document.getElementById('select-tag'),
+            btnSearch: document.getElementById('btn-search'),
+            btnResetFilters: document.getElementById('btn-reset-filters'),
+            countDisplay: document.getElementById('count-display'),
+            stationsGrid: document.getElementById('stations-grid')
+        };
+
+        const canvasCtx = el.canvas.getContext('2d');
+
+        // ==========================================
+        // 1. INITIALIZATION & API FETCH
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            resizeCanvas();
+            loadAllCountriesIntoDropdown();
+            // Default initial search targeting Cuba
+            fetchStations({ country: 'Cuba', limit: 60 });
+            setupEventListeners();
+        });
+
+        // Load complete list of worldwide countries alphabetically in select list
+        async function loadAllCountriesIntoDropdown() {
+            try {
+                const res = await fetch(`${API_BASE}/countries?hidebroken=true`);
+                const countries = await res.json();
+                
+                const sortedCountries = countries
+                    .filter(c => c.stationcount > 2)
+                    .sort((a, b) => a.name.localeCompare(b.name));
+
+                // Append remaining countries dynamically
+                sortedCountries.forEach(c => {
+                    // Check if already in top defaults
+                    const exists = Array.from(el.selectCountry.options).some(opt => opt.value === c.name);
+                    if (!exists) {
+                        const opt = document.createElement('option');
+                        opt.value = c.name;
+                        opt.textContent = `${c.name} (${c.stationcount})`;
+                        el.selectCountry.appendChild(opt);
+                    }
+                });
+            } catch (e) {
+                console.warn('Carga de lista extendida de países omitida:', e);
             }
         }
 
-        // Fetch Stations from Radio Browser API
-        async function fetchStations() {
-            stationList.innerHTML = '<div class="text-center text-purple-400 py-16">Buscando frecuencias...</div>';
-            
-            const genre = genreSelect.value;
-            const country = countrySelect.value;
-            const lang = langSelect.value;
+        // Fetch Radio Stations
+        async function fetchStations(params = {}) {
+            updateStatus('BUSCANDO...', 'on-yellow');
+            el.stationsGrid.innerHTML = `
+                <div class="col-span-full py-8 text-center text-xs glow-cyan">
+                    <i class="fa-solid fa-spinner fa-spin mr-2"></i>ESCANEAR FRECUENCIAS...
+                </div>
+            `;
 
-            let url = 'https://de1.api.radio-browser.info/json/stations/search?limit=60';
-            if (genre !== 'all') url += `&tag=${encodeURIComponent(genre)}`;
-            if (country !== 'all') url += `&country=${encodeURIComponent(country)}`;
-            if (lang !== 'all') url += `&language=${encodeURIComponent(lang)}`;
+            const searchParams = new URLSearchParams({
+                limit: '80',
+                hidebroken: 'true',
+                order: 'votes',
+                reverse: 'true',
+                ...params
+            });
 
             try {
-                const response = await fetch(url);
-                stations = await response.json();
-                renderStations();
-            } catch (error) {
-                stationList.innerHTML = '<div class="text-center text-red-400 py-16">Error al conectar con la red de radio.</div>';
+                const response = await fetch(`${API_BASE}/stations/search?${searchParams.toString()}`);
+                const data = await response.json();
+                
+                state.stations = data.filter(s => s.url_resolved || s.url);
+                el.countDisplay.textContent = state.stations.length;
+                
+                renderStationsList();
+                updateStatus('LISTO', 'on-green');
+            } catch (err) {
+                console.error('Error al conectar con la API:', err);
+                el.stationsGrid.innerHTML = `
+                    <div class="col-span-full py-8 text-center text-xs text-red-400">
+                        ERROR DE CONEXIÓN AL SERVIDOR DE EMISORAS.
+                    </div>
+                `;
+                updateStatus('ERROR', 'on-red');
             }
         }
 
-        function renderStations() {
-            stationList.innerHTML = '';
-            stationCount.textContent = `${stations.length} encontradas`;
-
-            if (stations.length === 0) {
-                stationList.innerHTML = '<div class="text-center text-slate-500 py-16">No se encontraron emisoras con estos filtros.</div>';
+        // Render Cards Grid
+        function renderStationsList() {
+            if (state.stations.length === 0) {
+                el.stationsGrid.innerHTML = `
+                    <div class="col-span-full py-8 text-center text-xs text-gray-400">
+                        NO SE ENCONTRARON EMISORAS CON ESTOS FILTROS.
+                    </div>
+                `;
                 return;
             }
 
-            stations.forEach((station, index) => {
-                const item = document.createElement('div');
-                item.className = `flex justify-between items-center p-2 rounded cursor-pointer transition-colors ${currentStation && currentStation.stationuuid === station.stationuuid ? 'bg-[#2a1b4e] border border-[#00ffcc]' : 'hover:bg-[#110920]'}`;
-                
-                const name = station.name || 'Emisora Sin Nombre';
-                const country = station.country || 'Global';
-                const bitrate = station.bitrate ? `${station.bitrate} kbps` : '---';
+            el.stationsGrid.innerHTML = '';
+            state.stations.forEach((station, index) => {
+                const isSelected = index === state.currentIndex;
+                const card = document.createElement('div');
+                card.className = `p-2 pixel-border-outset flex items-center justify-between text-xs cursor-pointer transition ${
+                    isSelected ? 'bg-purple-900/60 border-cyan-400' : 'bg-[var(--casing-bg)] hover:bg-[#201538]'
+                }`;
 
-                item.innerHTML = `
-                    <div class="truncate pr-2">
-                        <div class="text-[#00ffcc] text-sm truncate">${name}</div>
-                        <div class="text-xs text-slate-400">${country} • ${bitrate}</div>
+                const bitrate = station.bitrate || 128;
+                const codec = (station.codec || 'MP3').toUpperCase();
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-2 truncate pr-2">
+                        <button class="w-6 h-6 shrink-0 pixel-btn ${isSelected && state.isPlaying ? 'pixel-btn-action' : 'text-cyan-300'} text-[10px] flex items-center justify-center">
+                            <i class="fa-solid ${isSelected && state.isPlaying ? 'fa-volume-high animate-pulse' : 'fa-play'}"></i>
+                        </button>
+                        <div class="truncate">
+                            <div class="font-bold text-gray-200 truncate">${escapeHtml(station.name)}</div>
+                            <div class="text-[10px] text-gray-400 truncate">${station.country || 'Mundial'} // ${station.tags || 'General'}</div>
+                        </div>
                     </div>
-                    <span class="text-xs font-pixel text-[#ff007f] px-2 py-1 bg-[#1a0f2e] rounded">PLAY</span>
+                    <div class="flex flex-col items-end shrink-0 text-[10px]">
+                        <span class="glow-lime font-bold">${bitrate} KBPS</span>
+                        <span class="text-teal-400">${codec}</span>
+                    </div>
                 `;
 
-                item.addEventListener('click', () => playStation(station));
-                stationList.appendChild(item);
+                card.addEventListener('click', () => playStation(index));
+                el.stationsGrid.appendChild(card);
             });
         }
 
-        function playStation(station) {
-            initVisualizer();
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+        // ==========================================
+        // 2. AUDIO PLAYBACK & STREAMING
+        // ==========================================
+        function playStation(index) {
+            if (index < 0 || index >= state.stations.length) return;
 
-            currentStation = station;
-            audioPlayer.src = station.url_resolved || station.url;
-            audioPlayer.play().then(() => {
-                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block';
-                statusText.textContent = 'EN DIRECTO';
-                stationTitle.textContent = station.name;
-                stationDetails.textContent = `País: ${station.country || 'N/D'} | Género: ${station.tags || 'General'}`;
-                bitrateDisplay.textContent = `BITRATE: ${station.bitrate ? station.bitrate + ' kbps' : 'N/D'}`;
-                
+            setupWebAudio();
+
+            state.currentIndex = index;
+            const station = state.stations[index];
+
+            el.audio.pause();
+            el.audio.removeAttribute('src');
+            el.audio.load();
+
+            el.audio.src = station.url_resolved || station.url;
+            updateStatus('CONECTANDO', 'on-yellow');
+
+            el.audio.play().then(() => {
+                state.isPlaying = true;
+                updateStatus('EN LÍNEA', 'on-green');
                 startTimer();
-                renderStations();
             }).catch(err => {
-                statusText.textContent = 'ERROR DE STREAM';
-                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-red-500 inline-block';
+                console.warn('Error al reproducir:', err);
+                updateStatus('SIN SEÑAL', 'on-red');
             });
+
+            // Update LCD Display
+            const simulatedFreq = (88 + (index * 0.7) % 20).toFixed(1);
+            el.lcdFreq.textContent = `FM ${simulatedFreq} MHz`;
+            el.lcdTitle.textContent = `*** TRANSMITIENDO: ${station.name.toUpperCase()} ***`;
+            el.lcdGenre.textContent = `GÉNERO: ${(station.tags || 'MUNDIAL').toUpperCase()}`;
+            el.lcdCodec.textContent = (station.codec || 'MP3').toUpperCase();
+            el.lcdBitrate.textContent = `${station.bitrate || 128} KBPS`;
+            el.lcdCountry.textContent = (station.countrycode || station.country || 'WW').toUpperCase();
+
+            renderStationsList();
         }
 
-        playBtn.addEventListener('click', () => {
-            if (currentStation) {
-                audioPlayer.play();
-                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block';
-                statusText.textContent = 'EN DIRECTO';
-                startTimer();
-            } else if (stations.length > 0) {
-                playStation(stations[0]);
-            }
-        });
-
-        stopBtn.addEventListener('click', () => {
-            audioPlayer.pause();
-            statusDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500 inline-block';
-            statusText.textContent = 'EN PAUSA';
+        function stopAudio() {
+            el.audio.pause();
+            el.audio.removeAttribute('src');
+            el.audio.load();
+            state.isPlaying = false;
+            updateStatus('DETENIDO', 'on-red');
             stopTimer();
-        });
+            resetTimerDisplay();
+            renderStationsList();
+        }
 
-        volumeSlider.addEventListener('input', (e) => {
-            audioPlayer.volume = e.target.value;
-        });
+        function pauseAudio() {
+            if (state.isPlaying) {
+                el.audio.pause();
+                state.isPlaying = false;
+                updateStatus('PAUSADO', 'on-yellow');
+                stopTimer();
+            } else if (state.currentIndex !== -1) {
+                playStation(state.currentIndex);
+            }
+        }
 
-        genreSelect.addEventListener('change', fetchStations);
-        countrySelect.addEventListener('change', fetchStations);
-        langSelect.addEventListener('change', fetchStations);
+        function updateStatus(text, ledClass) {
+            el.statusText.textContent = text;
+            el.statusLed.className = `led-dot ${ledClass}`;
+        }
 
+        // Timers
         function startTimer() {
             stopTimer();
-            timerSeconds = 0;
-            timerInterval = setInterval(() => {
-                timerSeconds++;
-                const hrs = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
-                const mins = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
-                const secs = String(timerSeconds % 60).padStart(2, '0');
-                timerDisplay.textContent = `${hrs}:${mins}:${secs}`;
+            state.timerInterval = setInterval(() => {
+                state.elapsedSeconds++;
+                const hrs = String(Math.floor(state.elapsedSeconds / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((state.elapsedSeconds % 3600) / 60)).padStart(2, '0');
+                const secs = String(state.elapsedSeconds % 60).padStart(2, '0');
+                el.lcdTimer.textContent = `${hrs}:${mins}:${secs}`;
             }, 1000);
         }
 
         function stopTimer() {
-            if (timerInterval) clearInterval(timerInterval);
+            if (state.timerInterval) clearInterval(state.timerInterval);
         }
 
-        // Initial fetch on load
-        fetchStations();
+        function resetTimerDisplay() {
+            state.elapsedSeconds = 0;
+            el.lcdTimer.textContent = "00:00:00";
+        }
+
+        // ==========================================
+        // 3. CANVAS AUDIO VISUALIZER
+        // ==========================================
+        function setupWebAudio() {
+            if (state.audioCtx) {
+                if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
+                return;
+            }
+
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                state.audioCtx = new AudioContext();
+                state.analyser = state.audioCtx.createAnalyser();
+                state.analyser.fftSize = 32;
+
+                state.audioSource = state.audioCtx.createMediaElementSource(el.audio);
+                state.audioSource.connect(state.analyser);
+                state.analyser.connect(state.audioCtx.destination);
+
+                renderPixelVisualizer();
+            } catch (e) {
+                console.warn('Web Audio no disponible:', e);
+            }
+        }
+
+        function resizeCanvas() {
+            el.canvas.width = el.canvas.parentElement.clientWidth;
+            el.canvas.height = el.canvas.parentElement.clientHeight;
+        }
+
+        function renderPixelVisualizer() {
+            requestAnimationFrame(renderPixelVisualizer);
+
+            const width = el.canvas.width;
+            const height = el.canvas.height;
+
+            canvasCtx.fillStyle = '#040308';
+            canvasCtx.fillRect(0, 0, width, height);
+
+            if (!state.analyser || !state.isPlaying) {
+                canvasCtx.fillStyle = '#00f3ff';
+                for (let x = 0; x < width; x += 8) {
+                    canvasCtx.fillRect(x, Math.floor(height / 2), 4, 2);
+                }
+                return;
+            }
+
+            const bufferLength = state.analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            state.analyser.getByteFrequencyData(dataArray);
+
+            if (state.visMode === 'bars') {
+                const numBars = 12;
+                const barWidth = Math.floor((width - (numBars * 4)) / numBars);
+                const blockHeight = 6;
+
+                for (let i = 0; i < numBars; i++) {
+                    const value = dataArray[i] || 0;
+                    const maxBlocks = Math.floor(height / (blockHeight + 2));
+                    const blocksToDraw = Math.floor((value / 255) * maxBlocks);
+
+                    const x = i * (barWidth + 4) + 4;
+
+                    for (let b = 0; b < blocksToDraw; b++) {
+                        const y = height - ((b + 1) * (blockHeight + 2));
+
+                        if (b > maxBlocks * 0.75) canvasCtx.fillStyle = '#ff007f';
+                        else if (b > maxBlocks * 0.4) canvasCtx.fillStyle = '#ffcc00';
+                        else canvasCtx.fillStyle = '#00ff66';
+
+                        canvasCtx.fillRect(x, y, barWidth, blockHeight);
+                    }
+                }
+            } else {
+                const cols = 16;
+                const rows = 10;
+                const cellW = Math.floor(width / cols);
+                const cellH = Math.floor(height / rows);
+
+                for (let c = 0; c < cols; c++) {
+                    const val = dataArray[c % bufferLength] || 0;
+                    const activeRow = Math.floor((val / 255) * rows);
+
+                    for (let r = 0; r < rows; r++) {
+                        if (r === activeRow) {
+                            canvasCtx.fillStyle = '#00f3ff';
+                            canvasCtx.fillRect(c * cellW + 1, (rows - 1 - r) * cellH + 1, cellW - 2, cellH - 2);
+                        } else if (r < activeRow) {
+                            canvasCtx.fillStyle = '#1c1133';
+                            canvasCtx.fillRect(c * cellW + 1, (rows - 1 - r) * cellH + 1, cellW - 2, cellH - 2);
+                        }
+                    }
+                }
+            }
+        }
+
+        // ==========================================
+        // 4. EVENT LISTENERS
+        // ==========================================
+        function setupEventListeners() {
+            el.btnPlay.addEventListener('click', () => {
+                if (state.currentIndex === -1 && state.stations.length > 0) {
+                    playStation(0);
+                } else if (state.currentIndex !== -1) {
+                    playStation(state.currentIndex);
+                }
+            });
+
+            el.btnPause.addEventListener('click', pauseAudio);
+            el.btnStop.addEventListener('click', stopAudio);
+
+            el.btnNext.addEventListener('click', () => {
+                if (state.stations.length === 0) return;
+                const nextIndex = (state.currentIndex + 1) % state.stations.length;
+                playStation(nextIndex);
+            });
+
+            el.btnPrev.addEventListener('click', () => {
+                if (state.stations.length === 0) return;
+                const prevIndex = (state.currentIndex - 1 + state.stations.length) % state.stations.length;
+                playStation(prevIndex);
+            });
+
+            el.btnRandom.addEventListener('click', () => {
+                if (state.stations.length === 0) return;
+                const randIndex = Math.floor(Math.random() * state.stations.length);
+                playStation(randIndex);
+            });
+
+            // Volume Control
+            el.volSlider.addEventListener('input', (e) => {
+                const val = parseFloat(e.target.value);
+                el.audio.volume = val;
+                el.volText.textContent = `${Math.round(val * 100)}%`;
+                el.muteIcon.className = val === 0 ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high";
+            });
+
+            el.btnMute.addEventListener('click', () => {
+                state.isMuted = !state.isMuted;
+                el.audio.muted = state.isMuted;
+                el.muteIcon.className = state.isMuted ? "fa-solid fa-volume-xmark text-red-500" : "fa-solid fa-volume-high text-pink-400";
+            });
+
+            // Mode Toggle
+            el.btnVisMode.addEventListener('click', () => {
+                state.visMode = state.visMode === 'bars' ? 'matrix' : 'bars';
+                el.btnVisMode.textContent = `MODO: ${state.visMode === 'bars' ? 'BARRAS' : 'MATRIZ'}`;
+            });
+
+            // Toggle Panel Drawer
+            el.btnToggleDrawer.addEventListener('click', () => {
+                if (el.filterDrawer.classList.contains('hidden')) {
+                    el.filterDrawer.classList.remove('hidden');
+                    el.drawerToggleText.textContent = 'OCULTAR FILTROS';
+                } else {
+                    el.filterDrawer.classList.add('hidden');
+                    el.drawerToggleText.textContent = 'MOSTRAR FILTROS';
+                }
+            });
+
+            // Search Trigger
+            el.btnSearch.addEventListener('click', performSearch);
+            el.inputKeyword.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            // Reset
+            el.btnResetFilters.addEventListener('click', () => {
+                el.inputKeyword.value = '';
+                el.selectCountry.value = 'Cuba';
+                el.selectTag.value = '';
+                fetchStations({ country: 'Cuba', limit: 60 });
+            });
+
+            // Preset Genre Tags
+            document.querySelectorAll('.preset-tag-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tag = btn.getAttribute('data-tag');
+                    el.selectTag.value = tag;
+                    performSearch();
+                });
+            });
+
+            window.addEventListener('resize', resizeCanvas);
+        }
+
+        function performSearch() {
+            const queryParams = {
+                name: el.inputKeyword.value.trim(),
+                country: el.selectCountry.value,
+                tag: el.selectTag.value,
+                limit: 100
+            };
+
+            Object.keys(queryParams).forEach(key => {
+                if (!queryParams[key]) delete queryParams[key];
+            });
+
+            fetchStations(queryParams);
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : "Emisora de Radio";
+        }
     </script>
 </body>
 </html>
