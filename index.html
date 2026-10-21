@@ -560,6 +560,7 @@
             const searchParams = new URLSearchParams({
                 limit: '80',
                 hidebroken: 'true',
+                is_https: 'true',
                 order: 'votes',
                 reverse: 'true',
                 ...params
@@ -569,7 +570,10 @@
                 const response = await fetch(`${API_BASE}/stations/search?${searchParams.toString()}`);
                 const data = await response.json();
                 
-                state.stations = data.filter(s => s.url_resolved || s.url);
+                state.stations = data.filter(s => {
+                const url = s.url_resolved || s.url;
+                return url && url.startsWith('https://');
+                });
                 el.countDisplay.textContent = state.stations.length;
                 
                 renderStationsList();
