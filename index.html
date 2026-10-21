@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Radio - Radio Web Digital</title>
+    <meta name="description" content="Sintoniza emisoras de radio de todo el mundo en streaming con una interfaz retro pixel art inspirada en los equipos digitales clásicos.">
+    
+    <!-- Open Graph / Social Sharing Meta Tags -->
+    <meta property="og:title" content="Cyber Radio - Radio Web Digital">
+    <meta property="og:description" content="Sintoniza emisoras de radio de todo el mundo en streaming con una interfaz retro pixel art.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630' width='1200' height='630'%3E%3Crect width='1200' height='630' fill='%230b0614'/%3E%3Crect x='100' y='100' width='1000' height='430' fill='%23180f29' stroke='%2300ffcc' stroke-width='4'/%3E%3Ctext x='200' y='280' fill='%2300ffcc' font-family='monospace' font-size='60' font-weight='bold'%3E[ CYBER RADIO ]%3C/text%3E%3Ctext x='200' y='360' fill='%23ff007f' font-family='monospace' font-size='32'%3EStreaming Global & Pixel Audio%3C/text%3E%3C/svg%3E">
+
+    <!-- Favicon (Pixel Radio Icon) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%2300ffcc' d='M4 8h24v16H4z'/%3E%3Cpath fill='%23180f29' d='M6 10h20v12H6z'/%3E%3Ccircle cx='10' cy='16' r='3' fill='%23ff007f'/%3E%3Crect x='16' y='13' width='10' height='2' fill='%2300ffcc'/%3E%3Crect x='16' y='17' width='7' height='2' fill='%2300ffcc'/%3E%3C/svg%3E">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts for Pixel/Retro Aesthetics -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        .font-pixel { font-family: 'Press Start 2P', monospace; }
+        .font-lcd { font-family: 'VT323', monospace; }
+        .cyber-panel {
+            background: linear-gradient(135deg, #1f1338 0%, #110920 100%);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.8);
+            border: 3px solid #3b2563;
+        }
+        .lcd-screen {
+            background-color: #05020a;
+            border: 2px inset #2a1b4e;
+            box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.2);
+        }
+        .retro-button {
+            background: #2b1a4a;
+            border: 2px solid #57398f;
+            box-shadow: 0 4px 0 #130a24;
+            transition: all 0.1s ease;
+        }
+        .retro-button:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #130a24;
+        }
+        .retro-button.active {
+            background: #00ffcc;
+            color: #0b0614;
+            border-color: #ffffff;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+        custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        custom-scrollbar::-webkit-scrollbar-track {
+            background: #0b0614;
+        }
+        custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b2563;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-[#07030f] text-slate-100 min-h-screen flex flex-col items-center justify-between p-4 font-lcd">
+
+    <!-- Header / Title -->
+    <header class="w-full max-w-4xl text-center py-4">
+        <h1 class="font-pixel text-xl sm:text-2xl text-[#00ffcc] tracking-widest drop-shadow-[0_0_10px_rgba(0,255,204,0.5)]">CYBER RADIO</h1>
+        <p class="text-xs sm:text-sm text-[#ff007f] font-lcd tracking-wider mt-1">[ SINTONIZADOR DIGITAL MUNDIAL ]</p>
+    </header>
+
+    <!-- Main Receiver Chassis -->
+    <main class="w-full max-w-4xl cyber-panel rounded-lg p-4 sm:p-6 mb-6 flex flex-col gap-6">
+        
+        <!-- Top Display & Visualizer Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <!-- LCD Marquee Screen -->
+            <div class="lcd-screen rounded p-4 md:col-span-2 flex flex-col justify-between h-36 sm:h-40 relative overflow-hidden">
+                <div class="flex justify-between items-center text-xs text-emerald-400 border-b border-emerald-900 pb-1">
+                    <span id="conn-status" class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block animate-pulse" id="status-dot"></span> 
+                        <span id="status-text">DESCONECTADO</span>
+                    </span>
+                    <span id="stream-meta" class="text-[#ff007f]">FM / 128 kbps</span>
+                </div>
+                
+                <div class="my-auto py-2">
+                    <div id="station-title" class="text-xl sm:text-2xl text-[#00ffcc] font-bold truncate tracking-wide">Selecciona una emisora</div>
+                    <div id="station-details" class="text-sm text-slate-400 truncate mt-1">País: --- | Género: ---</div>
+                </div>
+
+                <div class="flex justify-between items-center text-xs text-slate-400 border-t border-emerald-900 pt-1">
+                    <span id="timer">00:00:00</span>
+                    <span id="bitrate-display">BITRATE: ---</span>
+                </div>
+            </div>
+
+            <!-- Canvas Audio Visualizer -->
+            <div class="lcd-screen rounded p-2 flex flex-col items-center justify-center h-36 sm:h-40 relative">
+                <div class="absolute top-2 left-2 text-[10px] text-purple-400 tracking-widest">ESPECTRO</div>
+                <canvas id="visualizer" class="w-full h-full mt-2"></canvas>
+            </div>
+        </div>
+
+        <!-- Controls & Volume Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-4 bg-[#0d0717] p-3 rounded border border-[#2a1b4e]">
+            <div class="flex items-center gap-3">
+                <button id="play-btn" class="retro-button px-5 py-2.5 text-base font-pixel text-[#00ffcc] rounded cursor-pointer hover:bg-[#3b2563]">▶ REPRODUCIR</button>
+                <button id="stop-btn" class="retro-button px-4 py-2.5 text-base font-pixel text-[#ff007f] rounded cursor-pointer hover:bg-[#3b2563]">⏹ PARAR</button>
+            </div>
+            
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <span class="text-sm text-purple-300">VOLUMEN</span>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.8" class="accent-[#00ffcc] cursor-pointer w-full sm:w-32">
+            </div>
+        </div>
+
+        <!-- Filters & Presets -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            
+            <!-- Genres -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs text-purple-300 tracking-wider">GÉNERO / ESTILO:</label>
+                <select id="genre-select" class="lcd-screen text-slate-200 p-2 rounded text-base outline-none cursor-pointer">
+                    <option value="all">Todos los géneros</option>
+                    <option value="pop">Pop</option>
+                    <option value="rock">Rock</option>
+                    <option value="electronic">Electrónica</option>
+                    <option value="jazz">Jazz</option>
+                    <option value="classical">Clásica</option>
+                    <option value="news">Noticias / Talk</option>
+                    <option value="salsa">Salsa / Latina</option>
+                    <option value="reggae">Reggae</option>
+                </select>
+            </div>
+
+            <!-- Country Selector -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs text-purple-300 tracking-wider">PAÍS:</label>
+                <select id="country-select" class="lcd-screen text-slate-200 p-2 rounded text-base outline-none cursor-pointer">
+                    <option value="all">Todos los países</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="Spain">España</option>
+                    <option value="Mexico">México</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="United States">Estados Unidos</option>
+                    <option value="France">Francia</option>
+                    <option value="Italy">Italia</option>
+                    <option value="Germany">Alemania</option>
+                </select>
+            </div>
+
+            <!-- Language Selector -->
+            <div class="flex flex-col gap-1">
+                <label class="text-xs text-purple-300 tracking-wider">IDIOMA:</label>
+                <select id="lang-select" class="lcd-screen text-slate-200 p-2 rounded text-base outline-none cursor-pointer">
+                    <option value="all">Cualquier idioma</option>
+                    <option value="spanish">Español</option>
+                    <option value="english">Inglés</option>
+                    <option value="french">Francés</option>
+                    <option value="italian">Italiano</option>
+                    <option value="german">Alemán</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Station Results Table -->
+        <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-purple-300 tracking-wider">EMISORAS DISPONIBLES:</span>
+                <span id="station-count" class="text-xs text-[#00ffcc]">0 encontradas</span>
+            </div>
+            
+            <div class="lcd-screen rounded h-64 overflow-y-auto p-2 flex flex-col gap-1.5 custom-scrollbar" id="station-list">
+                <div class="text-center text-slate-500 py-16">Cargando emisoras desde el servidor...</div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-purple-400 py-2">
+        Cyber Radio • Conectado vía Radio Browser API
+    </footer>
+
+    <!-- Audio Element -->
+    <audio id="audio-player" crossorigin="anonymous"></audio>
+
+    <!-- App Logic -->
+    <script>
+        const audioPlayer = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const volumeSlider = document.getElementById('volume-slider');
+        const stationTitle = document.getElementById('station-title');
+        const stationDetails = document.getElementById('station-details');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        const timerDisplay = document.getElementById('timer');
+        const bitrateDisplay = document.getElementById('bitrate-display');
+        const stationList = document.getElementById('station-list');
+        const stationCount = document.getElementById('station-count');
+
+        const genreSelect = document.getElementById('genre-select');
+        const countrySelect = document.getElementById('country-select');
+        const langSelect = document.getElementById('lang-select');
+
+        let stations = [];
+        let currentStation = null;
+        let timerSeconds = 0;
+        let timerInterval = null;
+
+        // Web Audio API Visualizer Setup
+        let audioCtx, analyser, dataArray, sourceNode;
+        const canvas = document.getElementById('visualizer');
+        const canvasCtx = canvas.getContext('2d');
+
+        function initVisualizer() {
+            if (audioCtx) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                sourceNode = audioCtx.createMediaElementSource(audioPlayer);
+                sourceNode.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                analyser.fftSize = 64;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                drawVisualizer();
+            } catch (e) {
+                console.log("Web Audio API not supported", e);
+            }
+        }
+
+        function drawVisualizer() {
+            requestAnimationFrame(drawVisualizer);
+            if (!analyser) return;
+            analyser.getByteFrequencyData(dataArray);
+
+            canvas.width = canvas.parentElement.clientWidth - 16;
+            canvas.height = canvas.parentElement.clientHeight - 24;
+
+            canvasCtx.fillStyle = '#05020a';
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const barWidth = (canvas.width / dataArray.length) * 1.5;
+            let x = 0;
+
+            for (let i = 0; i < dataArray.length; i++) {
+                const barHeight = (dataArray[i] / 255) * canvas.height;
+                
+                // Neon gradient effect
+                canvasCtx.fillStyle = i % 2 === 0 ? '#00ffcc' : '#ff007f';
+                canvasCtx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
+
+                x += barWidth + 1;
+            }
+        }
+
+        // Fetch Stations from Radio Browser API
+        async function fetchStations() {
+            stationList.innerHTML = '<div class="text-center text-purple-400 py-16">Buscando frecuencias...</div>';
+            
+            const genre = genreSelect.value;
+            const country = countrySelect.value;
+            const lang = langSelect.value;
+
+            let url = 'https://de1.api.radio-browser.info/json/stations/search?limit=60';
+            if (genre !== 'all') url += `&tag=${encodeURIComponent(genre)}`;
+            if (country !== 'all') url += `&country=${encodeURIComponent(country)}`;
+            if (lang !== 'all') url += `&language=${encodeURIComponent(lang)}`;
+
+            try {
+                const response = await fetch(url);
+                stations = await response.json();
+                renderStations();
+            } catch (error) {
+                stationList.innerHTML = '<div class="text-center text-red-400 py-16">Error al conectar con la red de radio.</div>';
+            }
+        }
+
+        function renderStations() {
+            stationList.innerHTML = '';
+            stationCount.textContent = `${stations.length} encontradas`;
+
+            if (stations.length === 0) {
+                stationList.innerHTML = '<div class="text-center text-slate-500 py-16">No se encontraron emisoras con estos filtros.</div>';
+                return;
+            }
+
+            stations.forEach((station, index) => {
+                const item = document.createElement('div');
+                item.className = `flex justify-between items-center p-2 rounded cursor-pointer transition-colors ${currentStation && currentStation.stationuuid === station.stationuuid ? 'bg-[#2a1b4e] border border-[#00ffcc]' : 'hover:bg-[#110920]'}`;
+                
+                const name = station.name || 'Emisora Sin Nombre';
+                const country = station.country || 'Global';
+                const bitrate = station.bitrate ? `${station.bitrate} kbps` : '---';
+
+                item.innerHTML = `
+                    <div class="truncate pr-2">
+                        <div class="text-[#00ffcc] text-sm truncate">${name}</div>
+                        <div class="text-xs text-slate-400">${country} • ${bitrate}</div>
+                    </div>
+                    <span class="text-xs font-pixel text-[#ff007f] px-2 py-1 bg-[#1a0f2e] rounded">PLAY</span>
+                `;
+
+                item.addEventListener('click', () => playStation(station));
+                stationList.appendChild(item);
+            });
+        }
+
+        function playStation(station) {
+            initVisualizer();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            currentStation = station;
+            audioPlayer.src = station.url_resolved || station.url;
+            audioPlayer.play().then(() => {
+                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block';
+                statusText.textContent = 'EN DIRECTO';
+                stationTitle.textContent = station.name;
+                stationDetails.textContent = `País: ${station.country || 'N/D'} | Género: ${station.tags || 'General'}`;
+                bitrateDisplay.textContent = `BITRATE: ${station.bitrate ? station.bitrate + ' kbps' : 'N/D'}`;
+                
+                startTimer();
+                renderStations();
+            }).catch(err => {
+                statusText.textContent = 'ERROR DE STREAM';
+                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-red-500 inline-block';
+            });
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (currentStation) {
+                audioPlayer.play();
+                statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block';
+                statusText.textContent = 'EN DIRECTO';
+                startTimer();
+            } else if (stations.length > 0) {
+                playStation(stations[0]);
+            }
+        });
+
+        stopBtn.addEventListener('click', () => {
+            audioPlayer.pause();
+            statusDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-500 inline-block';
+            statusText.textContent = 'EN PAUSA';
+            stopTimer();
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+            audioPlayer.volume = e.target.value;
+        });
+
+        genreSelect.addEventListener('change', fetchStations);
+        countrySelect.addEventListener('change', fetchStations);
+        langSelect.addEventListener('change', fetchStations);
+
+        function startTimer() {
+            stopTimer();
+            timerSeconds = 0;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const hrs = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
+                const secs = String(timerSeconds % 60).padStart(2, '0');
+                timerDisplay.textContent = `${hrs}:${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        // Initial fetch on load
+        fetchStations();
+    </script>
+</body>
+</html>
